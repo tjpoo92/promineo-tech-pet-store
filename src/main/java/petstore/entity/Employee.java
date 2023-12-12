@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
 @Data
@@ -24,7 +26,8 @@ public class Employee {
 	private String employeePhone;
 	private String employeeJobTitle;
 	
-	
+	@EqualsAndHashCode.Exclude
+	@ToString.Exclude	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "pet_store_id")
 	private PetStore petStore;

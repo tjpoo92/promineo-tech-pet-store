@@ -26,10 +26,11 @@ public class PetStore {
 	
 	@Column(unique = true)
 	private String petStoreName;
+	private String petStoreAddress;
 	private String petStoreCity;
 	private String petStoreState;
-	private Integer petStoreZip;
-	private Integer petStorePhone;
+	private String petStoreZip;
+	private String petStorePhone;
 	
 	@EqualsAndHashCode.Exclude
 	@ToString.Exclude
