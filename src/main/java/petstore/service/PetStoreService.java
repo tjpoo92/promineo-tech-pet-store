@@ -1,10 +1,9 @@
 package petstore.service;
 
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -116,12 +115,9 @@ public class PetStoreService {
 		Customer customer = findOrCreateCustomer(petStoreId, customerId);
 
 		copyCustomerFields(customer, petStoreCustomer);
-		Set<PetStore> petStores = new HashSet<PetStore>();
-		petStores.add(petStore);
-		customer.setPetStores(petStores);
-		Set<Customer> customers = new HashSet<Customer>();
-		customers.add(customer);
-		petStore.setCustomers(customers);
+		customer.getPetStores().add(petStore);
+		petStore.getCustomers().add(customer);
+		
 		Customer dbCustomer = customerDao.save(customer);
 		
 		return new PetStoreCustomer(dbCustomer);
@@ -159,8 +155,18 @@ public class PetStoreService {
 
 	@Transactional(readOnly = true)
 	public List<PetStoreData> retrieveAllPetStores() {
+		List<PetStore> petStores = petStoreDao.findAll();
+		List<PetStoreData> result = new LinkedList<>();
 		
-		return null;
+		for (PetStore petStore: petStores) {
+			PetStoreData psd = new PetStoreData(petStore);
+			psd.getCustomers().clear();
+			psd.getEmployees().clear();
+			
+			result.add(psd);
+		}
+		
+		return result;
 	}
 
 }
