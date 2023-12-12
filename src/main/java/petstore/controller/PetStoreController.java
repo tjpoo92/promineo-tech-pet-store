@@ -1,7 +1,10 @@
 package petstore.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -51,6 +54,13 @@ public class PetStoreController {
 	public PetStoreCustomer postCustomer(@RequestBody PetStoreCustomer petStoreCustomer, @PathVariable Long petStoreId) {
 		log.info("Creating customer: {} for Pet Store {}", petStoreCustomer, petStoreId);
 		return petStoreService.saveCustomer(petStoreId,petStoreCustomer);
+	}
+	
+	@GetMapping("/pet_store")
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public List<PetStoreData> getAllPetStores(){
+		log.info("Retrieving all Pet Stores");
+		return petStoreService.retrieveAllPetStores();
 	}
 	
 }

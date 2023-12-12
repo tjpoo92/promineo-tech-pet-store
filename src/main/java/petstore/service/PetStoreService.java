@@ -1,6 +1,7 @@
 package petstore.service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Set;
@@ -74,9 +75,7 @@ public class PetStoreService {
 
 		copyEmployeeFields(employee, petStoreEmployee);
 		employee.setPetStore(petStore);
-		Set<Employee> employees = new HashSet<Employee>();
-		employees.add(employee);
-		petStore.setEmployees(employees);
+		petStore.getEmployees().add(employee);
 		Employee dbEmployee = employeeDao.save(employee);
 
 		return new PetStoreEmployee(dbEmployee);
@@ -110,6 +109,7 @@ public class PetStoreService {
 		return employee;
 	}
 
+	@Transactional(readOnly = false)
 	public PetStoreCustomer saveCustomer(Long petStoreId, PetStoreCustomer petStoreCustomer) {
 		PetStore petStore = findPetStoreById(petStoreId);
 		Long customerId = petStoreCustomer.getCustomerId();
@@ -154,6 +154,12 @@ public class PetStoreService {
 			}
 		}
 
+		return null;
+	}
+
+	@Transactional(readOnly = true)
+	public List<PetStoreData> retrieveAllPetStores() {
+		
 		return null;
 	}
 
