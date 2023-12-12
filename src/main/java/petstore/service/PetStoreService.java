@@ -104,7 +104,7 @@ public class PetStoreService {
 		Employee employee = employeeDao.findById(employeeId)
 				.orElseThrow(() -> new NoSuchElementException("Employee with ID: " + employeeId + " was not found."));
 		if (employee.getPetStore().getPetStoreId() != petStoreId) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("This employee does not work at this pet store");
 		}
 		return employee;
 	}
@@ -150,11 +150,11 @@ public class PetStoreService {
 				.orElseThrow(() -> new NoSuchElementException("Customer with ID: " + customerId + " was not found."));
 		for(PetStore petStore : customer.getPetStores()) {
 			if (petStore.getPetStoreId() != petStoreId) {
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Customer does not go to this pet store.");
 			}
 		}
 
-		return null;
+		return customer;
 	}
 
 	@Transactional(readOnly = true)
